@@ -27,8 +27,9 @@ updates:
       maven-dependencies:
         patterns:
           - "org.apache.*"
-          - "com.fasterxml.jackson.*"
-          - "org.springframework.*"
+          - "org.eclipse.*"
+          - "org.omnistrate.*"
+
 
   # Enable version updates for Docker
   - package-ecosystem: "docker"
