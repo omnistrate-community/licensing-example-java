@@ -14,13 +14,13 @@ all: build
 
 .PHONY: build
 build:
-	echo "Verifiying and building service"
+	echo "Verifying and building service"
 	mvn --update-snapshots verify
 
 .PHONY: run
 run:
 	echo "Starting service"
-	mvn jetty:run
+	java -cp target/licensing-example-java.jar com.omnistrate.HttpServerApp
 
 # Docker 
 .PHONY: docker-build 
