@@ -11,16 +11,16 @@ COPY . /app
 RUN mvn clean install
 
 # Final stage
-FROM jetty:11-jre21
+FROM eclipse-temurin:21-jre-alpine
 
 # Set the working directory
-WORKDIR /var/lib/jetty/
+WORKDIR /app
 
-# Copy the war file from the build stage
-COPY --from=build /app/target/licensing-example-java.war /var/lib/jetty/webapps/ROOT.war
+# Copy the jar file from the build stage
+COPY --from=build /app/target/licensing-example-java.jar /app/licensing-example-java.jar
 
 # Expose port 8080
 EXPOSE 8080
 
-# Command to start Jetty with the WAR file
-CMD ["java", "-jar", "/usr/local/jetty/start.jar"]
+# Command to start the HTTP server
+CMD ["java", "-cp", "/app/licensing-example-java.jar", "com.omnistrate.HttpServerApp"]

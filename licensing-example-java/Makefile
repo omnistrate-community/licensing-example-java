@@ -20,7 +20,7 @@ build:
 .PHONY: run
 run:
 	echo "Starting service"
-	mvn jetty:run
+	java -cp target/licensing-example-java.jar com.omnistrate.HttpServerApp
 
 # Docker 
 .PHONY: docker-build 
