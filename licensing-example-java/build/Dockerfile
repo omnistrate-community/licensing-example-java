@@ -14,10 +14,10 @@ RUN mvn clean install
 FROM jetty:11-jre21
 
 # Set the working directory
-WORKDIR $JETTY_HOME/webapps
+WORKDIR /var/lib/jetty/
 
 # Copy the war file from the build stage
-COPY --from=build /app/target/licensing-example-java.war $JETTY_BASE/webapps/root.war
+COPY --from=build /app/target/licensing-example-java.war /var/lib/jetty/webapps/ROOT.war
 
 # Expose port 8080
 EXPOSE 8080
