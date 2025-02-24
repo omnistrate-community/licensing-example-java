@@ -11,7 +11,7 @@ COPY . /app
 RUN mvn clean install
 
 # Final stage
-FROM jetty:11-jre11
+FROM jetty:11-jre21
 
 # Set the working directory
 WORKDIR $JETTY_HOME/webapps
