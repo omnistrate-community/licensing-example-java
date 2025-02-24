@@ -23,8 +23,7 @@ public class HttpServerApp {
         public void handle(HttpExchange exchange) throws IOException {
             String response = "<h1>Placeholder</h1>";
             try {
-                boolean isValid = false; 
-               // Validator.validateLicenseForProduct("PRODUCT-SAMPLE-JAVA-SKU-UNIQUE-VALUE"); 
+                boolean isValid = Validator.validateLicenseForProduct("PRODUCT-SAMPLE-JAVA-SKU-UNIQUE-VALUE"); 
                 if (isValid) {
                     response = "<h1>Success</h1><p>License is valid</p>";
                 } else {

@@ -23,7 +23,28 @@
       <groupId>com.omnistrate.licensing</groupId>
       <artifactId>omnistrate-licensing-sdk-java</artifactId>
       <version>v0.0.35</version>
-   </dependency>
+    </dependency>
+    <!-- JUnit 5 dependency -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Mockito dependency -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>3.12.4</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
