@@ -28,11 +28,11 @@ docker-build-arm64:
 .PHONY: docker-run
 docker-run:
 	echo "Starting service"
-	docker run --platform=${DOCKER_PLATFORM} -t ${PROJECT_NAME}:latest --name ${PROJECT_NAME}
+	docker run --platform=${DOCKER_PLATFORM} -p 8080:8080 -t ${PROJECT_NAME}:latest --name ${PROJECT_NAME}
 .PHONY: docker-run-arm64
 docker-run-arm64:
 	echo "Starting service"
-	docker run --platform=linux/arm64 -t ${PROJECT_NAME}:latest --name ${PROJECT_NAME}
+	docker run --platform=linux/arm64 -p 8080:8080  -t ${PROJECT_NAME}:latest --name ${PROJECT_NAME}
 
 # Omnistrate
 .PHONY: install-ctl

@@ -1,5 +1,5 @@
 # Build stage
-FROM maven:3.9-eclipse-temurin-23-alpine AS build
+FROM maven:3.9-eclipse-temurin-21-alpine AS build
 
 # Set the working directory
 WORKDIR /app
@@ -11,16 +11,15 @@ COPY . /app
 RUN mvn clean install
 
 # Final stage
-FROM eclipse-temurin:23-alpine
+FROM jetty:11-jre21
 
 # Set the working directory
-WORKDIR /app
+WORKDIR $JETTY_HOME/webapps
 
-# Copy the jar file from the build stage
-COPY --from=build /app/target/licensing-example-java.jar /app/licensing-example-java.jar
+# Copy the war file from the build stage
+COPY --from=build /app/target/licensing-example-java.war $JETTY_HOME/webapps/root.war
 
 # Expose port 8080
 EXPOSE 8080
 
-# Run the application
-CMD ["java", "-jar", "licensing-example-java.jar"]
+# Jetty runs automatically with the default CMD
