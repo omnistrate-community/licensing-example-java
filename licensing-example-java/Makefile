@@ -17,6 +17,11 @@ build:
 	echo "Verifiying and building service"
 	mvn --update-snapshots verify
 
+.PHONY: run
+run:
+	echo "Starting service"
+	mvn jetty:run
+
 # Docker 
 .PHONY: docker-build 
 docker-build:
