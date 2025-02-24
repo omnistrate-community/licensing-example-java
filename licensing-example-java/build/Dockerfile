@@ -19,5 +19,8 @@ WORKDIR /app
 # Copy the jar file from the build stage
 COPY --from=build /app/target/licensing-example-java.jar /app/licensing-example-java.jar
 
+# Expose port 8080
+EXPOSE 8080
+
 # Run the application
 CMD ["java", "-jar", "licensing-example-java.jar"]
