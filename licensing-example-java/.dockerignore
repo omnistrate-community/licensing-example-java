@@ -1,8 +1,20 @@
-# Ignored files
 .env
 .omnistrate.password
 .terraform
 .terraform.lock.hcl
+.DS_Store
+
+#github
+.github
+
+# Binaries
+licensing-example-go
+
+# IDE/editor config files
+.vscode/
+.idea/
+
+# OS generated files
 .DS_Store
 
 # vscode
