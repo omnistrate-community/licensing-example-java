@@ -21,16 +21,17 @@ public class HttpServerApp {
     static class RootHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
-            String response = "";
+            String response = "<h1>Placeholder</h1>";
             try {
-                boolean isValid = Validator.validateLicenseForProduct("PRODUCT-SAMPLE-JAVA-SKU-UNIQUE-VALUE"); 
+                boolean isValid = false; 
+               // Validator.validateLicenseForProduct("PRODUCT-SAMPLE-JAVA-SKU-UNIQUE-VALUE"); 
                 if (isValid) {
                     response = "<h1>Success</h1><p>License is valid</p>";
                 } else {
-                    response = "<h1>Error</h1><p>License is invalid/p>";
+                    response = "<h1>Error</h1><p>License is invalid</p>";
                 }
             } catch (Exception e) {
-                response = "<h1>Error</h1><p>" + e.getMessage() + "/p>";
+                response = "<h1>Error</h1><p>" + e.getMessage() + "</p>";
             }
 
             exchange.sendResponseHeaders(200, response.length());
