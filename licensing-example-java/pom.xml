@@ -20,6 +20,11 @@
   </properties>
 
   <dependencies>
+   <dependency>
+      <groupId>com.omnistrate.licensing</groupId>
+      <artifactId>omnistrate-licensing-sdk-java</artifactId>
+      <version>v0.0.27</version>
+   </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
