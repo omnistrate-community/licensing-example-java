@@ -1,5 +1,5 @@
-# Use an official OpenJDK runtime as a parent image
-FROM openjdk:11-jdk-slim
+# Build stage
+FROM maven:3.9-eclipse-temurin-21-alpine AS build
 
 # Set the working directory
 WORKDIR /app
@@ -7,8 +7,19 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Compile the project
-RUN ./gradlew build
+# Clean and compile the project
+RUN mvn clean install
 
-# Run the application
-CMD ["java", "-jar", "build/libs/licensing-example-java.jar"]
+# Final stage
+FROM jetty:11-jre11
+
+# Set the working directory
+WORKDIR $JETTY_HOME/webapps
+
+# Copy the war file from the build stage
+COPY --from=build /app/target/licensing-example-java.war $JETTY_HOME/webapps/root.war
+
+# Expose port 8080
+EXPOSE 8080
+
+# Jetty runs automatically with the default CMD
