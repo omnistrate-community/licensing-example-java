@@ -23,4 +23,4 @@ COPY --from=build /app/target/licensing-example-java.war $JETTY_BASE/webapps/roo
 EXPOSE 8080
 
 # Command to start Jetty with the WAR file
-CMD ["java", "-jar", "$JETTY_HOME/start.jar"]
+CMD ["java", "-jar", "/usr/local/jetty/start.jar"]
