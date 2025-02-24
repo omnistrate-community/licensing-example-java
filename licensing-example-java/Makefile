@@ -33,11 +33,11 @@ docker-build-arm64:
 .PHONY: docker-run
 docker-run:
 	echo "Starting service"
-	docker run --platform=${DOCKER_PLATFORM} -p 8080:8080 -t ${PROJECT_NAME}:latest --name ${PROJECT_NAME}
+	docker run --platform=${DOCKER_PLATFORM} -p 8080:8080 --name ${PROJECT_NAME} ${PROJECT_NAME}:latest
 .PHONY: docker-run-arm64
 docker-run-arm64:
 	echo "Starting service"
-	docker run --platform=linux/arm64 -p 8080:8080  -t ${PROJECT_NAME}:latest --name ${PROJECT_NAME}
+	docker run --platform=linux/arm64 -p 8080:8080 --name ${PROJECT_NAME} ${PROJECT_NAME}:latest
 
 # Omnistrate
 .PHONY: install-ctl
@@ -58,4 +58,4 @@ release:
 
 .PHONY: create
 create:
-	omnistrate-ctl instance create --environment Dev --cloud-provider aws --region us-east-2 --plan licensing-example-java --service licensing-example --resource web 
+	omnistrate-ctl instance create --environment Dev --cloud-provider aws --region us-east-2 --plan licensing-example-java --service licensing-example --resource web

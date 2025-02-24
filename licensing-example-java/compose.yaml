@@ -18,6 +18,3 @@ services:
     image: ghcr.io/omnistrate-community/licensing-example-java:0.1.0
     ports:
       - '8080:8080'
-    environment:
-      - SECURITY_CONTEXT_USER_ID=2000
-      - SECURITY_CONTEXT_GROUP_ID=1000

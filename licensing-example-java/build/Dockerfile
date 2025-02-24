@@ -17,9 +17,10 @@ FROM jetty:11-jre21
 WORKDIR $JETTY_HOME/webapps
 
 # Copy the war file from the build stage
-COPY --from=build /app/target/licensing-example-java.war $JETTY_HOME/webapps/root.war
+COPY --from=build /app/target/licensing-example-java.war $JETTY_BASE/webapps/root.war
 
 # Expose port 8080
 EXPOSE 8080
 
-# Jetty runs automatically with the default CMD
+# Command to start Jetty with the WAR file
+CMD ["java", "-jar", "$JETTY_HOME/start.jar"]
