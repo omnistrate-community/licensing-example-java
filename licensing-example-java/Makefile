@@ -1,6 +1,5 @@
 PROJECT_NAME=licensing-example-java
 DOCKER_PLATFORM?=linux/amd64
-CGO_ENABLED=0
 
 # Load variables from .env if it exists
 ifneq (,$(wildcard .env))
@@ -16,11 +15,14 @@ all: build
 build:
 	echo "Verifying and building service"
 	mvn --update-snapshots verify
+	mvn assembly:single
 
 .PHONY: run
 run:
 	echo "Starting service"
-	java -cp target/licensing-example-java.jar com.omnistrate.HttpServerApp
+	java -cp target/licensing-example-java-jar-with-dependencies.jar com.omnistrate.HttpServerApp
+
+
 
 # Docker 
 .PHONY: docker-build 

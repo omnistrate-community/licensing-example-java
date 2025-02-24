@@ -83,7 +83,7 @@
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
-            <version>3.1.1</version>
+            <version>3.7.1</version>
 
             <configuration>
                 <descriptorRefs>
@@ -100,7 +100,6 @@
                     </goals>
                 </execution>
             </executions>
-
         </plugin>
       </plugins>
     </pluginManagement>
