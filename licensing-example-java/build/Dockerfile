@@ -19,8 +19,13 @@ WORKDIR /app
 # Copy the jar file from the build stage
 COPY --from=build /app/target/licensing-example-java.jar /app/licensing-example-java.jar
 
+# Create a group (2000) and user (1000)
+RUN addgroup -S servicegroup -g 2000 && adduser -S serviceuser -G servicegroup -u 1000
+
 # Expose port 8080
 EXPOSE 8080
 
+# Change the user to serviceuser
+USER serviceuser:servicegroup
 # Command to start the HTTP server
 CMD ["java", "-cp", "/app/licensing-example-java.jar", "com.omnistrate.HttpServerApp"]
