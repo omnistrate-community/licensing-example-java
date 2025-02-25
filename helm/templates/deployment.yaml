@@ -22,5 +22,16 @@ spec:
             - containerPort: 8080
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            {{- if .Values.lsubscription-secret.enabled }}
+            - name: secret-volume
+              mountPath: {{ .Values.subscription-secret.mountPath }}
+            {{- end }}
+      volumes:
+        {{- if .Values.subscription-secret.enabled }}
+        - name: secret-volume
+          secret:
+            secretName: {{ .Values.subscription-secret.name }}
+        {{- end }}
       affinity:
         {{- toYaml .Values.affinity | nindent 8 }}
