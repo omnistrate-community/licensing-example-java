@@ -21,7 +21,7 @@
     <dependency>
       <groupId>com.omnistrate.licensing</groupId>
       <artifactId>omnistrate-licensing-sdk-java</artifactId>
-      <version>v0.0.35</version>
+      <version>v0.0.37</version>
     </dependency>
     <!-- JUnit 5 dependency -->
     <dependency>
