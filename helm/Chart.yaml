@@ -1,6 +1,18 @@
+# Copyright Omnistrate, Inc. All Rights Reserved.
+# SPDX-License-Identifier: APACHE-2.0
+
 apiVersion: v2
 name: licensing-example-java
 description: Licensing Example Java
+keywords:
+- omnistrate
+- licensing
+- example
+maintainers:
+- name: Omnistrate, Inc.. All Rights Reserved.
+  url: https://omnistrate.com
+sources:
+- https://github.com/omnistrate-community/licensing-example-java
 
 type: application
 

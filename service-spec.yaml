@@ -43,12 +43,9 @@ services:
             requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchExpressions:
-                - key: app.kubernetes.io/name
+                - key: omnistrate.com/schedule-mode
                   operator: In
                   values:
-                    - scalardb-cluster
-                - key: app.kubernetes.io/app
-                  operator: In
-                  values:
-                    - envoy
+                  - exclusive
+              namespaceSelector: {}
               topologyKey: kubernetes.io/hostname
