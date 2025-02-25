@@ -14,8 +14,7 @@ all: build
 .PHONY: build
 build:
 	echo "Verifying and building service"
-	mvn --update-snapshots verify
-	mvn assembly:single
+	mvn --update-snapshots clean verify
 
 .PHONY: run
 run:
