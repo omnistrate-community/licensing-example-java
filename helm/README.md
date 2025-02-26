@@ -14,8 +14,8 @@ This chart bootstraps a [licensing-example-java](https://github.com/omnistrate-c
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm repo add my-repo https://<your-github-username>.github.io/<your-repo-name>
-$ helm install my-release my-repo/licensing-example-java
+$ helm repo add my-repo https://omnistrate-community.github.io/licensing-example-java
+$ helm install my-release my-repo/licensing-example-java --namespace my-namespace
 ```
 
 These commands add the Helm repository and install the chart with the default configuration.
@@ -49,13 +49,13 @@ The following table lists the configurable parameters of the `licensing-example-
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
 ```bash
-$ helm install my-release my-repo/licensing-example-java --set replicaCount=2
+$ helm install my-release my-repo/licensing-example-java --namespace my-namespace --set replicaCount=2
 ```
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example:
 
 ```bash
-$ helm install my-release my-repo/licensing-example-java -f values.yaml
+$ helm install my-release my-repo/licensing-example-java --namespace my-namespace -f values.yaml
 ```
 
 ## License

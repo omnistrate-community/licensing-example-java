@@ -1,4 +1,4 @@
-# Omnistrate Licensing SDK for Go
+# Omnistrate Licensing SDK for Java
 
 ![Build](https://github.com/omnistrate-community/licensing-example-java/actions/workflows/build.yml/badge.svg) 
 ![Package](https://github.com/omnistrate-community/licensing-example-java/actions/workflows/package.yml/badge.svg) 
