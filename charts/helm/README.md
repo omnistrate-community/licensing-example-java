@@ -1,4 +1,4 @@
-# licensing-example-java
+# Helm Chart for Usage Example of Omnistrate Licensing SDK for Java
 
 ## Introduction
 
