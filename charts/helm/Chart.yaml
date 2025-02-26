@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: APACHE-2.0
 
 apiVersion: v2
-name: licensing-example-java Helm Chart
+name: licensing-example-java
 description: Helm chart for licensing-example-java
 type: application
 keywords:
