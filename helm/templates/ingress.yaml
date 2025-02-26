@@ -1,0 +1,29 @@
+
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  name: licensing-example-java
+  namespace: {{ .Release.Namespace }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: licensing-example-java
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host }}
+    secretName: google-public-ca-tls
+{{- end }}

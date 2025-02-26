@@ -1,18 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "licensing-example-java.fullname" . }}
+  name: licensing-example-java
+  namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "licensing-example-java.labels" . | nindent 4 }}
+    app: licensing-example-java
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "licensing-example-java.selectorLabels" . | nindent 6 }}
+      app: licensing-example-java
   template:
     metadata:
       labels:
-        {{- include "licensing-example-java.selectorLabels" . | nindent 8 }}
+        app: licensing-example-java
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -20,18 +21,16 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 8080
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            {{- if .Values.lsubscription-secret.enabled }}
-            - name: secret-volume
-              mountPath: {{ .Values.subscription-secret.mountPath }}
+            {{- if .Values.subscriptionSecret.enabled }}
+            - name: license-volume
+              mountPath: "/var/subscription"
             {{- end }}
       volumes:
-        {{- if .Values.subscription-secret.enabled }}
-        - name: secret-volume
+        {{- if .Values.subscriptionSecret.enabled }}
+        - name: license-volume
           secret:
-            secretName: {{ .Values.subscription-secret.name }}
+            secretName: license-subscription
         {{- end }}
       affinity:
         {{- toYaml .Values.affinity | nindent 8 }}

@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "replicaCount": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 1
+    },
+    "image": {
+      "type": "object",
+      "properties": {
+        "repository": {
+          "type": "string",
+          "default": "ghcr.io/omnistrate-community/licensing-example-java"
+        },
+        "pullPolicy": {
+          "type": "string",
+          "enum": ["Always", "IfNotPresent", "Never"],
+          "default": "IfNotPresent"
+        },
+        "tag": {
+          "type": "string",
+          "default": "latest"
+        }
+      },
+      "required": ["repository"]
+    },
+    "ingress": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "className": {
+          "type": "string",
+          "default": "nginx"
+        },
+        "annotations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "host": {
+          "type": "string",
+          "default": "frontendlb.instance-fpi05qn33.hc-pelsk80ph.us-east-2.aws.f2e0a955bb84.cloud"
+        }
+      },
+      "required": ["enabled", "host"]
+    },
+    "subscriptionSecret": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": ["enabled"]
+    }
+  },
+  "required": ["replicaCount", "image", "ingress", "subscriptionSecret"]
+}

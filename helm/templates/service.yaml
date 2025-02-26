@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "licensing-example-java.fullname" . }}
-  labels:
-    {{- include "licensing-example-java.labels" . | nindent 4 }}
+  name: licensing-example-java
+  namespace: {{ .Release.Namespace }}
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
   ports:
-    - port: {{ .Values.service.port }}
+    - name: http
+      port: 8080
       targetPort: 8080
   selector:
-    {{- include "licensing-example-java.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/name: licensing-example-java

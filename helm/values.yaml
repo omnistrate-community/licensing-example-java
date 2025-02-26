@@ -5,16 +5,14 @@ image:
   pullPolicy: IfNotPresent
   tag: "latest"
 
-service:
-  type: ClusterIP
-  port: 80
-
-resources: {}
-nodeSelector: {}
-tolerations: []
-affinity: {}
-
-subscription-secret:
+ingress:
   enabled: true
-  name: "license-subscription"
-  mountPath: "/var/"
+  className: nginx
+  annotations:
+      nginx.org/client-max-body-size: "0"
+      nginx.org/proxy-buffering: "False"
+      nginx.org/websocket-services: web
+  host: frontendlb.instance-fpi05qn33.hc-pelsk80ph.us-east-2.aws.f2e0a955bb84.cloud
+
+subscriptionSecret:
+  enabled: true
