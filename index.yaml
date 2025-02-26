@@ -3,6 +3,25 @@ entries:
   licensing-example-java:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-02-26T09:02:36.113743283Z"
+    description: Licensing Example Chart Java
+    digest: ed1b51da012e753ea13312f22532a863b62c2e160e4dcbd323fdf4571783bcdb
+    keywords:
+    - omnistrate
+    - licensing
+    - example
+    maintainers:
+    - name: Omnistrate, Inc.. All Rights Reserved.
+      url: https://omnistrate.com
+    name: licensing-example-java
+    sources:
+    - https://github.com/omnistrate-community/licensing-example-java
+    type: application
+    urls:
+    - https://github.com/omnistrate-community/licensing-example-java/releases/download/licensing-example-java-0.1.2/licensing-example-java-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-02-26T08:54:34.302160373Z"
     description: Licensing Example Java
     digest: fff9032f6487393f3197bfe1c18f0745b514fc0b501df269f4e44b53000378e0
@@ -20,4 +39,4 @@ entries:
     urls:
     - https://github.com/omnistrate-community/licensing-example-java/releases/download/licensing-example-java-0.1.1/licensing-example-java-0.1.1.tgz
     version: 0.1.1
-generated: "2025-02-26T08:54:34.302166194Z"
+generated: "2025-02-26T09:02:36.113757109Z"
