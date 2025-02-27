@@ -15,5 +15,5 @@ maintainers:
 sources:
 - https://github.com/omnistrate-community/licensing-example-java
 
-version: 0.1.3
+version: 0.1.4
 appVersion: "1.0"
