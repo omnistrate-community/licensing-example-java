@@ -8,7 +8,7 @@ image:
 ingress:
   enabled: true
   className: nginx
-  host: instance-fpi05qn33.hc-pelsk80ph.us-east-2.aws.f2e0a955bb84.cloud
+  host: www.service.cloud
 
 subscriptionSecret:
   enabled: true
