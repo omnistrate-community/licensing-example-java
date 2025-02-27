@@ -55,8 +55,8 @@ login:
 
 .PHONY: release
 release:
-	omnistrate-ctl build -f compose.yaml --name licensing-example-java --release-as-preferred
+	omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --name licensing-example-java --release-as-preferred
 
 .PHONY: create
 create:
-	omnistrate-ctl instance create --environment Dev --cloud-provider aws --region us-east-2 --plan licensing-example-java --service licensing-example-java --resource web
+	omnistrate-ctl instance create --environment Dev --cloud-provider aws --region us-east-2 --plan licensing-example-java --service licensing-example-java --resource licensing-example-java

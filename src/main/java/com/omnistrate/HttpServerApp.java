@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
 public class HttpServerApp {
+
+
     public static void main(String[] args) throws IOException {
         System.out.println("Starting HTTP server on port 8080");
         // Create a simple HTTP server
@@ -19,11 +21,15 @@ public class HttpServerApp {
     }
 
     static class RootHandler implements HttpHandler {
+        // Replace with your own values
+        private static final String orgID = "org-4xihABXKyq";
+        private static final String productID = "PRODUCT-SAMPLE-JAVA-SKU-UNIQUE-VALUE";
+        
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             String response = "<h1>Placeholder</h1>";
             try {
-                boolean isValid = Validator.validateLicenseForProduct("PRODUCT-SAMPLE-JAVA-SKU-UNIQUE-VALUE"); 
+                boolean isValid = Validator.validateLicense(orgID, productID); 
                 if (isValid) {
                     response = "<h1>Success</h1><p>License is valid</p>";
                 } else {
