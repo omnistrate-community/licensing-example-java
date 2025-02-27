@@ -4,16 +4,16 @@ metadata:
   name: licensing-example-java
   namespace: {{ .Release.Namespace }}
   labels:
-    app: licensing-example-java
+    app.kubernetes.io/name: licensing-example-java
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: licensing-example-java
+      app.kubernetes.io/name: licensing-example-java
   template:
     metadata:
       labels:
-        app: licensing-example-java
+        app.kubernetes.io/name: licensing-example-java
     spec:
       containers:
         - name: {{ .Chart.Name }}

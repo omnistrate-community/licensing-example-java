@@ -15,6 +15,7 @@ To install the chart with the release name `my-release`:
 
 ```bash
 $ helm repo add licensing-example-java https://omnistrate-community.github.io/licensing-example-java
+$ kubectl create namespace licensing-example-java 
 $ helm install licensing-example-java licensing-example-java/licensing-example-java --namespace licensing-example-java
 ```
 
@@ -25,7 +26,7 @@ These commands add the Helm repository and install the chart with the default co
 To uninstall/delete the `my-release` deployment:
 
 ```bash
-$ helm uninstall my-release
+$ helm uninstall licensing-example-java --namespace licensing-example-java
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
