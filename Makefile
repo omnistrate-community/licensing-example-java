@@ -59,4 +59,4 @@ release:
 
 .PHONY: create
 create:
-	omnistrate-ctl instance create --environment Dev --cloud-provider aws --region us-east-2 --plan licensing-example-java --service licensing-example-java --resource licensing-example-java
+	omnistrate-ctl instance create --environment Dev --cloud-provider aws --region ap-south-1 --plan licensing-example-java --service licensing-example-java --resource licensing-example-java

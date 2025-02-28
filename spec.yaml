@@ -20,7 +20,7 @@ services:
         networkingType: PUBLIC
     helmChartConfiguration:
       chartName: licensing-example-java
-      chartVersion: 0.1.3
+      chartVersion: 0.1.7
       chartRepoName: licensing-example-java
       chartRepoURL: https://omnistrate-community.github.io/licensing-example-java
       chartValues:
@@ -28,7 +28,7 @@ services:
         image:
           repository: ghcr.io/omnistrate-community/licensing-example-java
           pullPolicy: IfNotPresent
-          tag: "0.1.5"
+          tag: "0.1.24"
         ingress:
           enabled: true
           className: nginx

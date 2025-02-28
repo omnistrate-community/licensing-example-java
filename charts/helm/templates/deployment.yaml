@@ -30,7 +30,7 @@ spec:
         {{- if .Values.subscriptionSecret.enabled }}
         - name: license-volume
           secret:
-            secretName: license-subscription
+            secretName: service-plan-subscription-license
         {{- end }}
       affinity:
         {{- toYaml .Values.affinity | nindent 8 }}

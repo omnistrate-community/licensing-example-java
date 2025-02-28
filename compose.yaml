@@ -15,7 +15,7 @@ x-omnistrate-load-balancer:
 
 services:
   web:
-    image: ghcr.io/omnistrate-community/licensing-example-java:0.1.5
+    image: ghcr.io/omnistrate-community/licensing-example-java:0.1.24
     ports:
       - '8080:8080'
     environment:
