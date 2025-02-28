@@ -20,7 +20,7 @@ services:
         networkingType: PUBLIC
     helmChartConfiguration:
       chartName: licensing-example-java
-      chartVersion: 0.1.8
+      chartVersion: 0.1.9
       chartRepoName: licensing-example-java
       chartRepoURL: https://omnistrate-community.github.io/licensing-example-java
       chartValues:
@@ -33,6 +33,8 @@ services:
           enabled: true
           className: nginx
           host: $sys.network.externalClusterEndpoint
+          tls: true
+          tls-secret: selfsigned-tls
         subscriptionSecret:
           enabled: true
         affinity:

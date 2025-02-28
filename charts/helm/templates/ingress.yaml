@@ -17,13 +17,15 @@ spec:
       paths:
       - backend:
           service:
-            name: licensing-example-java
+            name: web
             port:
               number: 8080
         path: /
         pathType: Prefix
+  {{- if .Values.ingress.tls }}
   tls:
   - hosts:
     - {{ .Values.ingress.host }}
-    secretName: google-public-ca-tls
+    secretName: {{ .Values.ingress.tls-secret }}
+  {{- end }}
 {{- end }}

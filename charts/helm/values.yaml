@@ -9,6 +9,8 @@ ingress:
   enabled: true
   className: nginx
   host: www.service.cloud
+  tls: true
+  tls-secret: google-public-ca-tls
 
 subscriptionSecret:
   enabled: true

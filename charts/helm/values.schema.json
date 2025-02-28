@@ -45,7 +45,15 @@
         },
         "host": {
           "type": "string",
-          "default": "frontendlb.instance-fpi05qn33.hc-pelsk80ph.us-east-2.aws.f2e0a955bb84.cloud"
+          "default": "www.service.cloud"
+        }, 
+        "tls": {
+          "type": "boolean",
+          "default": false
+        }, 
+        "tlsSecret": {
+          "type": "string",
+          "default": "google-public-ca-tls"
         }
       },
       "required": ["enabled", "host"]
