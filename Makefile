@@ -24,7 +24,7 @@ run:
 .PHONY: verify
 verify: 
 	echo "Verifying service"
-	helm lint ./charts/licensing-example-java
+	helm lint ./charts/helm
 
 # Docker 
 .PHONY: docker-build 
