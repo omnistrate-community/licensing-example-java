@@ -22,10 +22,10 @@ spec:
               number: 8080
         path: /
         pathType: Prefix
-  {{- if .Values.ingress.tls }}
+{{- if .Values.ingress.tls }}
   tls:
   - hosts:
     - {{ .Values.ingress.host }}
     secretName: {{ .Values.ingress.tls-secret }}
-  {{- end }}
+{{- end }}
 {{- end }}
