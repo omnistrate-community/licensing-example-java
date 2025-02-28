@@ -20,7 +20,7 @@ services:
         networkingType: PUBLIC
     helmChartConfiguration:
       chartName: licensing-example-java
-      chartVersion: 0.1.9
+      chartVersion: 0.1.10
       chartRepoName: licensing-example-java
       chartRepoURL: https://omnistrate-community.github.io/licensing-example-java
       chartValues:

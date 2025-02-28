@@ -21,7 +21,10 @@ run:
 	echo "Starting service"
 	java -cp target/licensing-example-java-jar-with-dependencies.jar com.omnistrate.HttpServerApp
 
-
+.PHONY: verify
+verify: 
+	echo "Verifying service"
+	helm lint ./charts/licensing-example-java
 
 # Docker 
 .PHONY: docker-build 
