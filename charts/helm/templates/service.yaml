@@ -9,5 +9,6 @@ spec:
     - name: http
       port: 8080
       targetPort: 8080
+  publishNotReadyAddresses: true
   selector:
     app.kubernetes.io/name: licensing-example-java
