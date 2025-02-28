@@ -4,9 +4,10 @@
 name: licensing-example-java
 
 features:
-  licensing:
-    licenseExpirationInDays: 7 # optional - defaults to 7 days
-    productPlanUniqueIdentifier: 'PRODUCT-SAMPLE-JAVA-SKU-UNIQUE-VALUE'
+  CUSTOMER: 
+    licensing:
+      licenseExpirationInDays: 7 # optional - defaults to 7 days
+      productPlanUniqueIdentifier: 'PRODUCT-SAMPLE-JAVA-SKU-UNIQUE-VALUE'
 
 services:
   - name: licensing-example-java
