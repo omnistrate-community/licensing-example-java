@@ -12,7 +12,7 @@ features:
 services:
   - name: licensing-example-java
     endpointConfiguration:
-      cluster:
+      Endpoint:
         host: $sys.network.externalClusterEndpoint
         ports:
           - 443
@@ -34,7 +34,7 @@ services:
           className: nginx
           host: $sys.network.externalClusterEndpoint
           tls: true
-          tlsSecret: selfsigned-tls
+          tlsSecret: google-public-ca-tls
         subscriptionSecret:
           enabled: true
         affinity:
