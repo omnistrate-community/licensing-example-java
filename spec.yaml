@@ -34,7 +34,7 @@ services:
           className: nginx
           host: $sys.network.externalClusterEndpoint
           tls: true
-          tls-secret: selfsigned-tls
+          tlsSecret: selfsigned-tls
         subscriptionSecret:
           enabled: true
         affinity:
