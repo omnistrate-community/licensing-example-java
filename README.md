@@ -12,9 +12,10 @@ This example project demonstrates how to use the Omnistrate Licensing SDK in a G
 
 ### Golang project
 
-The [HttpServerApp.java](./src/main/java/com/omnistrate/HttpServerApp.java) file is the entry point of the GoLang application. It demonstrates how to use the Omnistrate Licensing SDK to validate your mounted licenses. 
+The [HttpServerApp.java](./src/main/java/com/omnistrate/HttpServerApp.java) file is the entry point of the GoLang application. It demonstrates how to use the Omnistrate Licensing SDK to validate your mounted licenses.
 
 This is the validation method that can be used to validate a license key for a product in Omnistrate. With a simple call to this method, you can:
+
 - confirm the validity of the certificate that signed the license
 - validate the license signature
 - validate the license expiration date
@@ -35,7 +36,7 @@ The `.github/workflows` directory contains GitHub Actions workflows for continuo
 
 The `compose.yaml` file defines the service to run the GoLang application using Docker Compose. This file is ready for deployment in Omnistrate, ensuring that the application can be easily provisioned and managed in a cloud environment. Contains the configuration required to enable the Licensing feature in Omnistrate.
 
-### Make file automation 
+### Make file automation
 
 The `Makefile` includes various automation scripts to streamline the development and deployment processes. It contains commands for building the application, releasing the application to Omnistrate and creating instances for testing, all done using `omnistrate-ctl`.
 
