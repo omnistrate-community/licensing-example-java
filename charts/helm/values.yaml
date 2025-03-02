@@ -14,3 +14,5 @@ ingress:
 
 subscriptionSecret:
   enabled: true
+
+instanceId: "unique-deployment-id"

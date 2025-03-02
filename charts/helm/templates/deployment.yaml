@@ -21,6 +21,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 8080
+          env:
+            - name: INSTANCE_ID
+              value: {{ .Values.instanceId }}
           volumeMounts:
             {{- if .Values.subscriptionSecret.enabled }}
             - name: license-volume

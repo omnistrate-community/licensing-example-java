@@ -67,7 +67,11 @@
         }
       },
       "required": ["enabled"]
+    },
+    "instanceId": {
+      "type": "string",
+      "default": "default-instance-id"
     }
   },
-  "required": ["replicaCount", "image", "ingress", "subscriptionSecret"]
+  "required": ["replicaCount", "image", "ingress", "subscriptionSecret", "instanceId"]
 }

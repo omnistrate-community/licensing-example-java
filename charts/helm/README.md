@@ -44,8 +44,9 @@ The following table lists the configurable parameters of the `licensing-example-
 | `ingress.enabled`        | Enable ingress controller resource              | `true`                                                  |
 | `ingress.className`      | Ingress class name                              | `nginx`                                                 |
 | `ingress.annotations`    | Ingress annotations                             | `{}`                                                    |
-| `ingress.host`           | Hostname for the ingress                        | `frontendlb.instance-fpi05qn33.hc-pelsk80ph.us-east-2.aws.f2e0a955bb84.cloud` |
+| `ingress.host`           | Hostname for the ingress                        | `www.service.cloud`                                     |
 | `subscriptionSecret.enabled` | Enable subscription secret                | `true`                                                  |
+| `instanceId`             | Instance ID for the deployment                  | `unique-deployment-id`                                   |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
