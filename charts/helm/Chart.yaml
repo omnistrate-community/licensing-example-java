@@ -1,5 +1,9 @@
 # Copyright Omnistrate, Inc. All Rights Reserved.
 # SPDX-License-Identifier: APACHE-2.0
+annotations:
+  omnistrate.com/images: |
+    - name: licensing-example-java
+      image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
 
 apiVersion: v2
 name: licensing-example-java
