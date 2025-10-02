@@ -3,7 +3,7 @@
 annotations:
   omnistrate.com/images: |
     - name: licensing-example-java
-      image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+      image: ghcr.io/omnistrate-community/licensing-example-java:latest
 
 apiVersion: v2
 name: licensing-example-java
@@ -19,5 +19,5 @@ maintainers:
 sources:
 - https://github.com/omnistrate-community/licensing-example-java
 
-version: 0.1.13
+version: 0.1.14
 appVersion: "1.0"
