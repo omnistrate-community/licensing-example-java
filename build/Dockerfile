@@ -1,5 +1,5 @@
 # Build stage
-FROM maven:3-eclipse-temurin-24-alpine AS build
+FROM maven:3-eclipse-temurin-25-alpine AS build
 
 # Set the working directory
 WORKDIR /app
@@ -11,7 +11,7 @@ COPY . /app
 RUN mvn clean install
 
 # Final stage
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 
 # Set the working directory
 WORKDIR /app
