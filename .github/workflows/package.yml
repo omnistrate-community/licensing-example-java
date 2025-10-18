@@ -11,8 +11,7 @@ on:
       - build/Dockerfile
     branches: 
     - main
-  release:
-    types: [ "published" ]
+  workflow_call:
 
 env:
   # Use docker.io for Docker Hub if empty

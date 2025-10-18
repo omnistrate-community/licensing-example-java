@@ -2,9 +2,14 @@ name: Package Chart
 
 on:
   push:
+    paths:
+      - charts/helm/**
     branches: [ "main" ]
   pull_request:
+    paths:
+      - charts/helm/**
     branches: [ "main" ] 
+  workflow_call: 
   
 env:
   # Use docker.io for Docker Hub if empty
