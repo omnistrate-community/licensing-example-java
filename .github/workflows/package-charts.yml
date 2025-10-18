@@ -12,7 +12,7 @@ env:
   ORG: ${{ github.repository_owner }}
 
 jobs:
-  release:
+  package:
     # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
     # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
     permissions:
@@ -35,7 +35,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Package and Push Helm Chart
+      - name: Package the Chart
         run: |
           cd charts/helm
           # Get chart version from Chart.yaml
@@ -44,6 +44,10 @@ jobs:
           
           # Package the chart
           helm package .
-          
+
+      - name: Push Helm Chart to Registry
+        if: github.event_name == 'release'
+        run: |
+          cd charts/helm
           # Push to GitHub Container Registry
           helm push "${CHART_NAME}-${CHART_VERSION}.tgz" oci://${{ env.REGISTRY }}/${{ env.ORG }}
