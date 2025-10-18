@@ -6,7 +6,7 @@ annotations:
       image: ghcr.io/omnistrate-community/licensing-example-java:latest
 
 apiVersion: v2
-name: licensing-example-java
+name: licensing-example-java-chart
 description: Helm chart for licensing-example-java
 type: application
 keywords:
