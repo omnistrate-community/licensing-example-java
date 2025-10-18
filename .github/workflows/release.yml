@@ -1,0 +1,26 @@
+name: Release
+
+on:
+  release:
+    types: [ "published" ]
+
+jobs:
+  # First job: Build and publish Docker images using existing package workflow
+  package-docker:
+    name: Package Docker Images
+    uses: ./.github/workflows/package.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    secrets: inherit
+
+  # Second job: Package and publish Helm charts using existing package-charts workflow
+  package-charts:
+    name: Package Helm Charts
+    needs: package-docker
+    uses: ./.github/workflows/package-charts.yml
+    permissions:
+      contents: write
+      packages: write
+    secrets: inherit

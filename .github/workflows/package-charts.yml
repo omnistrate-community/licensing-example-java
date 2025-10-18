@@ -1,0 +1,58 @@
+name: Package Chart
+
+on:
+  push:
+    paths:
+      - charts/helm/**
+    branches: [ "main" ]
+  pull_request:
+    paths:
+      - charts/helm/**
+    branches: [ "main" ] 
+  workflow_call: 
+  
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  ORG: ${{ github.repository_owner }}
+
+jobs:
+  package:
+    # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
+    # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
+    permissions:
+      contents: write
+      packages: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Package the Chart
+        run: |
+          cd charts/helm
+          # Get chart version from Chart.yaml
+          CHART_VERSION=$(grep '^version:' Chart.yaml | awk '{print $2}')
+          CHART_NAME=$(grep '^name:' Chart.yaml | awk '{print $2}')
+          
+          # Package the chart
+          helm package .
+
+      - name: Push Helm Chart to Registry
+        if: github.event_name == 'release'
+        run: |
+          cd charts/helm
+          # Push to GitHub Container Registry
+          helm push "${CHART_NAME}-${CHART_VERSION}.tgz" oci://${{ env.REGISTRY }}/${{ env.ORG }}
