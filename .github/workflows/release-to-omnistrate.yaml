@@ -1,17 +1,19 @@
 name: Release to Omnistrate
 on:
   workflow_call:
+  workflow_dispatch:
 
 env:
-  OMNISTRATE_USERNAME: ${{ secrets.OMNISTRATE_USERNAME }}
-  OMNISTRATE_PASSWORD: ${{ secrets.OMNISTRATE_PASSWORD }}
-  OMNISTRATE_SERVICE_NAME: licensing-example-java
-  IMAGE_VERSION: ${{ github.event.release.tag_name }}
-  OMNISTRATE_ENVIRONMENT_TYPE: Dev
-
+  PROJECT_NAME: licensing-example-java
+  SERVICE_NAME: licensing-example-java
+  MAIN_RESOURCE_NAME: licensing-example-java
+  ENVIRONMENT_TYPE: Dev
+  IMAGE_VERSION: ${{ github.ref_name }}
+  CLOUD_PROVIDER: aws
+  REGION: ap-south-1
 jobs:
   update-plan:
-    name: Update ${OMNISTRATE_ENVIRONMENT_TYPE} Plan in Omnistrate
+    name: Update ${ENVIRONMENT_TYPE} Plan in Omnistrate
     runs-on: ubuntu-latest
    
     steps:
@@ -42,7 +44,57 @@ jobs:
 
       - name: Update Omnistrate plan in environment
         env:
+          SERVICE_NAME: ${{ env.SERVICE_NAME }}
+          ENVIRONMENT_TYPE: ${{ env.ENVIRONMENT_TYPE }}
+        run: |
+          omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --product-name ${SERVICE_NAME} --environment ${ENVIRONMENT_TYPE} --environment-type ${ENVIRONMENT_TYPE} --release-as-preferred
+
+
+  create-instance:
+    name: Create Instance in Omnistrate
+    needs: update-plan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Omnistrate CLI
+        uses: omnistrate-oss/setup-omnistrate-ctl@v1
+        with:
+          email: ${{ secrets.OMNISTRATE_USERNAME }}
+          password: ${{ secrets.OMNISTRATE_PASSWORD }}
+
+      - name: Create Instance
+        id: create_instance
+        env:
           OMNISTRATE_SERVICE_NAME: ${{ env.OMNISTRATE_SERVICE_NAME }}
           OMNISTRATE_ENVIRONMENT_TYPE: ${{ env.OMNISTRATE_ENVIRONMENT_TYPE }}
         run: |
-          omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --product-name ${OMNISTRATE_SERVICE_NAME} --environment ${OMNISTRATE_ENVIRONMENT_TYPE} --release-as-preferred
+          INSTANCE_ID=$(omnistrate-ctl instance create --environment ${ENVIRONMENT} --cloud-provider ${CLOUD_PROVIDER} --region ${REGION} --plan ${SERVICE_PLAN} --service ${SERVICE_NAME} --resource ${MAIN_RESOURCE_NAME} --output json | jq -r '.instance_id')
+          echo "instance_id=$INSTANCE_ID" >> $GITHUB_OUTPUT
+
+      - name: Check Instance Status
+        timeout-minutes: 10
+        run: |
+              echo "Waiting for instance to become ACTIVE..."
+              STATUS="DEPLOYING"
+              while [ "$STATUS" != "ACTIVE" ]; do
+              STATUS=$(omnistrate-ctl instance describe ${{ steps.create_instance.outputs.instance_id }} -o json | jq -r '.consumptionResourceInstanceResult.status')
+              echo "Instance Status: $STATUS"
+              if [ "$STATUS" = "FAILED" ]; then
+                echo "Instance deployment failed"
+                exit 1
+              fi
+              if [ "$STATUS" != "ACTIVE" ]; then
+                echo "Waiting 30 seconds before checking again..."
+                sleep 30
+              fi
+              done
+              echo "Instance is now ACTIVE"
+
+      - name: Output Instance Details
+        run: |
+          omnistrate-ctl instance describe ${{ steps.create_instance.outputs.instance_id }} -o json
+
+      - name: Delete Instance
+        if: always()
+        run: |
+          omnistrate-ctl instance delete ${{ steps.create_instance.outputs.instance_id }} --yes
