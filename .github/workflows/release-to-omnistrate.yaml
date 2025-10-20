@@ -31,20 +31,18 @@ jobs:
           sed -i 's#<CHART_VERSION>#${{ steps.get_chart_version.outputs.CHART_VERSION }}#g' spec.yaml
           sed -i 's#<IMAGE_VERSION>#${{ env.IMAGE_VERSION }}#g' spec.yaml
 
+      - name: Print update spec.yaml
+        run: cat spec.yaml
+
       - name: Set up Omnistrate CLI
-        uses: omnistrate-inc/omnistrate-setup-cli@v1
+        uses: omnistrate-oss/setup-omnistrate-ctl@v1
         with:
-          version: 'latest'
+          email: ${{ secrets.OMNISTRATE_USERNAME }}
+          password: ${{ secrets.OMNISTRATE_PASSWORD }}
+
+      - name: Update Omnistrate plan in environment
         env:
-          OMNISTRATE_USERNAME: ${{ env.OMNISTRATE_USERNAME }}
-          OMNISTRATE_PASSWORD: ${{ env.OMNISTRATE_PASSWORD }}
-          
-      - name: Update Omnistrate plan in dev environment
-        with:
-          username: ${{ env.OMNISTRATE_USERNAME }}
-          password: ${{ env.OMNISTRATE_PASSWORD }}
-          file: ${{ matrix.plans.file }}
-          service-name: ${{ env.OMNISTRATE_SERVICE_NAME }}
-          environment: ${{ env.OMNISTRATE_DEV_ENVIRONMENT_NAME }}
-          environment-type: dev
-          working-directory: ${{ github.event.inputs.working-directory || '.' }}
+          OMNISTRATE_SERVICE_NAME: ${{ env.OMNISTRATE_SERVICE_NAME }}
+          OMNISTRATE_ENVIRONMENT_TYPE: ${{ env.OMNISTRATE_ENVIRONMENT_TYPE }}
+        run: |
+          omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --product-name ${OMNISTRATE_SERVICE_NAME} --environment ${OMNISTRATE_ENVIRONMENT_TYPE} --release-as-preferred

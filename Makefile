@@ -5,7 +5,7 @@ DOCKER_PLATFORM?=linux/amd64
 MAIN_RESOURCE_NAME=licensing-example-java
 ENVIRONMENT=Dev
 CLOUD_PROVIDER=aws
-REGION=us-east-2
+REGION=ap-south-1
 
 # Load variables from .env if it exists
 ifneq (,$(wildcard .env))
@@ -66,12 +66,11 @@ login:
 release:
 	@echo "Replacing chart version from Chart.yaml"
 	@export CHART_VERSION=$$(grep '^version:' charts/helm/Chart.yaml | awk '{print $$2}'); \
-	export IMAGE_VERSION=$$(git describe --tags --abbrev=0); \
+	export IMAGE_VERSION=$$(gh release list --limit 1 --json tagName --jq '.[0].tagName'); \
 	echo "Chart version: $$CHART_VERSION"; \
 	echo "Image version: $$IMAGE_VERSION"; \
 	sed -i '' "s#chartVersion:.*#chartVersion: $$CHART_VERSION#g" spec.yaml; \
 	sed -i '' "s#\$${IMAGE_VERSION}#$$IMAGE_VERSION#g" spec.yaml
-	@cat spec.yaml
 	@echo "Releasing service plan to Omnistrate" 
 	@omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --product-name ${SERVICE_NAME}  --environment ${ENVIRONMENT} --environment-type ${ENVIRONMENT}  --release-as-preferred
 
