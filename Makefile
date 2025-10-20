@@ -69,8 +69,8 @@ release:
 	export IMAGE_VERSION=$$(git describe --tags --abbrev=0); \
 	echo "Chart version: $$CHART_VERSION"; \
 	echo "Image version: $$IMAGE_VERSION"; \
-	sed -i.bak "s#chartVersion:.*#chartVersion: $$CHART_VERSION#g" spec.yaml && rm -f spec.yaml.bak; \
-	sed -i.bak "s#\$${IMAGE_VERSION}#$$IMAGE_VERSION#g" spec.yaml && rm -f spec.yaml.bak
+	sed -i '' "s#chartVersion:.*#chartVersion: $$CHART_VERSION#g" spec.yaml; \
+	sed -i '' "s#\$${IMAGE_VERSION}#$$IMAGE_VERSION#g" spec.yaml
 	@cat spec.yaml
 	@echo "Releasing service plan to Omnistrate" 
 	@omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --product-name ${SERVICE_NAME}  --environment ${ENVIRONMENT} --environment-type ${ENVIRONMENT}  --release-as-preferred
