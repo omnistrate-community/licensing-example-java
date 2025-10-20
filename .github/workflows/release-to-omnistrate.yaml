@@ -1,0 +1,50 @@
+name: Release to Omnistrate
+on:
+  workflow_call:
+
+env:
+  OMNISTRATE_USERNAME: ${{ secrets.OMNISTRATE_USERNAME }}
+  OMNISTRATE_PASSWORD: ${{ secrets.OMNISTRATE_PASSWORD }}
+  OMNISTRATE_SERVICE_NAME: licensing-example-java
+  IMAGE_VERSION: ${{ github.event.release.tag_name }}
+  OMNISTRATE_ENVIRONMENT_TYPE: Dev
+
+jobs:
+  update-plan:
+    name: Update ${OMNISTRATE_ENVIRONMENT_TYPE} Plan in Omnistrate
+    runs-on: ubuntu-latest
+   
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Get Chart Version
+        id: get_chart_version
+        run: |
+          cd charts/helm
+          # Get chart version from Chart.yaml
+          CHART_VERSION=$(grep '^version:' Chart.yaml | awk '{print $2}')
+          echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_ENV
+
+      - name: Replace Version tags in spec.yaml
+        run: |
+          sed -i 's#<CHART_VERSION>#${{ steps.get_chart_version.outputs.CHART_VERSION }}#g' spec.yaml
+          sed -i 's#<IMAGE_VERSION>#${{ env.IMAGE_VERSION }}#g' spec.yaml
+
+      - name: Set up Omnistrate CLI
+        uses: omnistrate-inc/omnistrate-setup-cli@v1
+        with:
+          version: 'latest'
+        env:
+          OMNISTRATE_USERNAME: ${{ env.OMNISTRATE_USERNAME }}
+          OMNISTRATE_PASSWORD: ${{ env.OMNISTRATE_PASSWORD }}
+          
+      - name: Update Omnistrate plan in dev environment
+        with:
+          username: ${{ env.OMNISTRATE_USERNAME }}
+          password: ${{ env.OMNISTRATE_PASSWORD }}
+          file: ${{ matrix.plans.file }}
+          service-name: ${{ env.OMNISTRATE_SERVICE_NAME }}
+          environment: ${{ env.OMNISTRATE_DEV_ENVIRONMENT_NAME }}
+          environment-type: dev
+          working-directory: ${{ github.event.inputs.working-directory || '.' }}
