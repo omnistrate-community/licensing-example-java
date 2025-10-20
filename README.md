@@ -44,10 +44,6 @@ The `spec.yaml` file defines the Kubernetes Service resource for the application
 
 The `Makefile` includes various automation scripts to streamline the development and deployment processes. It contains commands for building the application, releasing the application to Omnistrate and creating instances for testing, all done using `omnistrate-ctl`.
 
-### Alternative setup - Compose specification
-
-The `compose.yaml` file defines the service to run the Java application using Docker Compose. This file is ready for deployment in Omnistrate, ensuring that the application can be easily provisioned and managed in a cloud environment. Contains the configuration required to enable the Licensing feature in Omnistrate.
-
 ## Contributing
 
 Want to contribute? Awesome! You can find information about contributing to this project in the [CONTRIBUTING](/CONTRIBUTING.md) page.
