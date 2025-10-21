@@ -10,13 +10,11 @@ on:
     branches: [ "main" ]
 
 env:
-  PROJECT_NAME: licensing-example-java
   SERVICE_NAME: licensing-example-java
-  MAIN_RESOURCE_NAME: licensing-example-java
   ENVIRONMENT_TYPE: Dev
   
 jobs:
-  update-plan:
+  validate-plan:
     name: Validate Plan to Omnistrate
     runs-on: ubuntu-latest
    
@@ -54,7 +52,7 @@ jobs:
           email: ${{ secrets.OMNISTRATE_USERNAME }}
           password: ${{ secrets.OMNISTRATE_PASSWORD }}
 
-      - name: Update Omnistrate plan in environment
+      - name: Validate Omnistrate plan in environment
         run: |
           omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --product-name ${SERVICE_NAME} --environment ${ENVIRONMENT_TYPE} --environment-type ${ENVIRONMENT_TYPE} --dry-run
 
