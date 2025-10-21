@@ -70,7 +70,7 @@ jobs:
 
   create-instance:
     name: Create Instance in Omnistrate
-    if: ${{ inputs.create-instance == 'true' }}
+    if: ${{ inputs.create-instance == true }}
     needs: update-plan
     runs-on: ubuntu-latest
 
