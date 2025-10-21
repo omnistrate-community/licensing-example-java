@@ -10,7 +10,7 @@ env:
   MAIN_RESOURCE_NAME: licensing-example-java
   ENVIRONMENT_TYPE: Dev
   CLOUD_PROVIDER: aws
-  REGION: ap-south-1
+  REGION: us-east-1
   
 jobs:
 
