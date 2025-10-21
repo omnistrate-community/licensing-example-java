@@ -11,9 +11,10 @@ env:
   IMAGE_VERSION: ${{ github.ref_name }}
   CLOUD_PROVIDER: aws
   REGION: ap-south-1
+  
 jobs:
   update-plan:
-    name: Update ${ENVIRONMENT_TYPE} Plan in Omnistrate
+    name: Update ${{ env.ENVIRONMENT_TYPE }} Plan in Omnistrate
     runs-on: ubuntu-latest
    
     steps:
@@ -23,9 +24,9 @@ jobs:
       - name: Get Chart Version
         id: get_chart_version
         run: |
-          cd charts/helm
           # Get chart version from Chart.yaml
-          CHART_VERSION=$(grep '^version:' Chart.yaml | awk '{print $2}')
+          CHART_VERSION=$(grep '^version:' charts/helm/Chart.yaml | awk '{print $2}')
+          echo "Chart version: $CHART_VERSION"
           echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_ENV
 
       - name: Replace Version tags in spec.yaml
