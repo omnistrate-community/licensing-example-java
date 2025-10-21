@@ -37,7 +37,7 @@ jobs:
     needs: package-charts
     uses: ./.github/workflows/release-to-omnistrate.yaml
     with:
-      create-instance: ${{ github.event.inputs.create-instance }}
+      create-instance: ${{ github.event.inputs.create-instance || false }}
     permissions:
       contents: read
       packages: read
