@@ -43,10 +43,6 @@ jobs:
       - name: Package the Chart
         run: |
           cd charts/helm
-          # Get chart version from Chart.yaml
-          CHART_VERSION=$(grep '^version:' Chart.yaml | awk '{print $2}')
-          CHART_NAME=$(grep '^name:' Chart.yaml | awk '{print $2}')
-          
           # Package the chart
           helm package .
 
@@ -54,5 +50,9 @@ jobs:
         if: github.event_name == 'release'
         run: |
           cd charts/helm
+          # Get chart version and name from Chart.yaml
+          CHART_VERSION=$(grep '^version:' Chart.yaml | awk '{print $2}')
+          CHART_NAME=$(grep '^name:' Chart.yaml | awk '{print $2}')
+          
           # Push to GitHub Container Registry
           helm push "${CHART_NAME}-${CHART_VERSION}.tgz" oci://${{ env.REGISTRY }}/${{ env.ORG }}
