@@ -73,7 +73,6 @@ release:
 	sed -i.bak "s#<CHART_VERSION>#$$CHART_VERSION#g" spec.yaml.tmp; \
 	sed -i.bak "s#<IMAGE_VERSION>#$$IMAGE_VERSION#g" spec.yaml.tmp; \
 	rm spec.yaml.tmp.bak; \
-	cat spec.yaml.tmp; \
 	echo "Releasing service plan to Omnistrate"; \
 	omnistrate-ctl build -s ServicePlanSpec -f spec.yaml.tmp --product-name ${SERVICE_NAME} --environment ${ENVIRONMENT} --environment-type ${ENVIRONMENT} --release-as-preferred; \
 	rm spec.yaml.tmp
