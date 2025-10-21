@@ -90,21 +90,21 @@ jobs:
       - name: Check Instance Status
         timeout-minutes: 10
         run: |
-              echo "Waiting for instance to become ACTIVE..."
+              echo "Waiting for instance to become RUNNING..."
               STATUS="DEPLOYING"
-              while [ "$STATUS" != "ACTIVE" ]; do
+              while [ "$STATUS" != "RUNNING" ]; do
               STATUS=$(omnistrate-ctl instance describe ${{ steps.create_instance.outputs.instance_id }} -o json | jq -r '.consumptionResourceInstanceResult.status')
               echo "Instance Status: $STATUS"
               if [ "$STATUS" = "FAILED" ]; then
                 echo "Instance deployment failed"
                 exit 1
               fi
-              if [ "$STATUS" != "ACTIVE" ]; then
+              if [ "$STATUS" != "RUNNING" ]; then
                 echo "Waiting 30 seconds before checking again..."
                 sleep 30
               fi
               done
-              echo "Instance is now ACTIVE"
+              echo "Instance is now RUNNING"
 
       - name: Output Instance Details
         run: |
