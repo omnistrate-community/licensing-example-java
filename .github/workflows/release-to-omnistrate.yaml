@@ -1,7 +1,19 @@
 name: Release to Omnistrate
 on:
   workflow_call:
+    inputs:
+      create-instance:
+        description: 'Whether to create an instance after updating the plan'
+        type: boolean
+        required: false
+        default: false
   workflow_dispatch:
+    inputs:
+      create-instance:
+        description: 'Whether to create an instance after updating the plan'
+        type: boolean
+        required: false
+        default: false
 
 env:
   PROJECT_NAME: licensing-example-java
@@ -44,15 +56,13 @@ jobs:
           password: ${{ secrets.OMNISTRATE_PASSWORD }}
 
       - name: Update Omnistrate plan in environment
-        env:
-          SERVICE_NAME: ${{ env.SERVICE_NAME }}
-          ENVIRONMENT_TYPE: ${{ env.ENVIRONMENT_TYPE }}
         run: |
           omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --product-name ${SERVICE_NAME} --environment ${ENVIRONMENT_TYPE} --environment-type ${ENVIRONMENT_TYPE} --release-as-preferred
 
 
   create-instance:
     name: Create Instance in Omnistrate
+    if: ${{ inputs.create-instance == 'true' }}
     needs: update-plan
     runs-on: ubuntu-latest
 
@@ -65,9 +75,6 @@ jobs:
 
       - name: Create Instance
         id: create_instance
-        env:
-          OMNISTRATE_SERVICE_NAME: ${{ env.OMNISTRATE_SERVICE_NAME }}
-          OMNISTRATE_ENVIRONMENT_TYPE: ${{ env.OMNISTRATE_ENVIRONMENT_TYPE }}
         run: |
           INSTANCE_ID=$(omnistrate-ctl instance create --environment ${ENVIRONMENT} --cloud-provider ${CLOUD_PROVIDER} --region ${REGION} --plan ${SERVICE_PLAN} --service ${SERVICE_NAME} --resource ${MAIN_RESOURCE_NAME} --output json | jq -r '.instance_id')
           echo "instance_id=$INSTANCE_ID" >> $GITHUB_OUTPUT
