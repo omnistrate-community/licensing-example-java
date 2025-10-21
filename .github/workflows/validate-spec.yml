@@ -1,0 +1,60 @@
+
+name: Validate Plan to Omnistrate
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ] 
+  merge_group:
+    branches: [ "main" ]
+
+env:
+  PROJECT_NAME: licensing-example-java
+  SERVICE_NAME: licensing-example-java
+  MAIN_RESOURCE_NAME: licensing-example-java
+  ENVIRONMENT_TYPE: Dev
+  
+jobs:
+  update-plan:
+    name: Validate Plan to Omnistrate
+    runs-on: ubuntu-latest
+   
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Get Chart Version
+        id: get_chart_version
+        run: |
+          # Get chart version from Chart.yaml
+          CHART_VERSION=$(grep '^version:' charts/helm/Chart.yaml | awk '{print $2}')
+          echo "Chart version: $CHART_VERSION"
+          echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Get Image Version
+        id: get_image_version
+        run: |
+          # Get image version from latest GitHub release tag
+            IMAGE_VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+          echo "Image version: $IMAGE_VERSION"
+          echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Replace Version tags in spec.yaml
+        run: |
+          sed -i 's#<CHART_VERSION>#${{ steps.get_chart_version.outputs.CHART_VERSION }}#g' spec.yaml
+          sed -i 's#<IMAGE_VERSION>#${{ steps.get_image_version.outputs.IMAGE_VERSION }}#g' spec.yaml
+
+      - name: Print update spec.yaml
+        run: cat spec.yaml
+
+      - name: Set up Omnistrate CLI
+        uses: omnistrate-oss/setup-omnistrate-ctl@v1
+        with:
+          email: ${{ secrets.OMNISTRATE_USERNAME }}
+          password: ${{ secrets.OMNISTRATE_PASSWORD }}
+
+      - name: Update Omnistrate plan in environment
+        run: |
+          omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --product-name ${SERVICE_NAME} --environment ${ENVIRONMENT_TYPE} --environment-type ${ENVIRONMENT_TYPE} --release-as-preferred --dry-run
+
