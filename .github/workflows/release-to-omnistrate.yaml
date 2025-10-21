@@ -27,7 +27,7 @@ env:
   
 jobs:
   update-plan:
-    name: Release Plan to ${{ env.ENVIRONMENT_TYPE }}
+    name: Release Plan to Omnistrate
     runs-on: ubuntu-latest
    
     steps:
