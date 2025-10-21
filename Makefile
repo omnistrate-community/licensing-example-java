@@ -65,14 +65,18 @@ login:
 .PHONY: release
 release:
 	@echo "Replacing chart version from Chart.yaml"
-	@export CHART_VERSION=$$(grep '^version:' charts/helm/Chart.yaml | awk '{print $$2}'); \
-	export IMAGE_VERSION=$$(gh release list --limit 1 --json tagName --jq '.[0].tagName' | sed 's/^v//'); \
+	@CHART_VERSION=$$(grep '^version:' charts/helm/Chart.yaml | awk '{print $$2}'); \
+	IMAGE_VERSION=$$(gh release list --limit 1 --json tagName --jq '.[0].tagName' | sed 's/^v//'); \
 	echo "Chart version: $$CHART_VERSION"; \
 	echo "Image version: $$IMAGE_VERSION"; \
-	sed -i '' "s#<CHART_VERSION>#$$CHART_VERSION#g" spec.yaml; \
-	sed -i '' "s#<IMAGE_VERSION>#$$IMAGE_VERSION#g" spec.yaml
-	@echo "Releasing service plan to Omnistrate" 
-	@omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --product-name ${SERVICE_NAME}  --environment ${ENVIRONMENT} --environment-type ${ENVIRONMENT}  --release-as-preferred
+	cp spec.yaml spec.yaml.tmp; \
+	sed -i.bak "s#<CHART_VERSION>#$$CHART_VERSION#g" spec.yaml.tmp; \
+	sed -i.bak "s#<IMAGE_VERSION>#$$IMAGE_VERSION#g" spec.yaml.tmp; \
+	rm spec.yaml.tmp.bak; \
+	cat spec.yaml.tmp; \
+	echo "Releasing service plan to Omnistrate"; \
+	omnistrate-ctl build -s ServicePlanSpec -f spec.yaml.tmp --product-name ${SERVICE_NAME} --environment ${ENVIRONMENT} --environment-type ${ENVIRONMENT} --release-as-preferred; \
+	rm spec.yaml.tmp
 
 .PHONY: create
 create:
