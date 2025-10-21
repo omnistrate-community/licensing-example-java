@@ -1,4 +1,4 @@
-name: Validate instance deployment in Omnistrate
+name: Validate Instance Deployment
 
 on:
   workflow_call:
