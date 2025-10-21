@@ -3,6 +3,13 @@ name: Release
 on:
   release:
     types: [ "published" ]
+  workflow_dispatch:
+    inputs:
+      create-instance:
+        description: 'Whether to create an instance after updating the plan'
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   # First job: Build and publish Docker images using existing package workflow
@@ -23,6 +30,17 @@ jobs:
     permissions:
       contents: write
       packages: write
+    secrets: inherit
+
+  release-to-omnistrate:
+    name: Release to Omnistrate
+    needs: package-charts
+    uses: ./.github/workflows/release-to-omnistrate.yaml
+    with:
+      create-instance: ${{ github.event.inputs.create-instance || 'false' }}
+    permissions:
+      contents: read
+      packages: read
     secrets: inherit
 
 
