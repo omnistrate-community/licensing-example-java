@@ -1,0 +1,67 @@
+name: Validate instance deployment in Omnistrate
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+env:
+  SERVICE_NAME: licensing-example-java
+  MAIN_RESOURCE_NAME: licensing-example-java
+  ENVIRONMENT_TYPE: Dev
+  CLOUD_PROVIDER: aws
+  REGION: ap-south-1
+  
+jobs:
+
+  create-instance:
+    name: Create Deployment Instance
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Omnistrate CLI
+        uses: omnistrate-oss/setup-omnistrate-ctl@v1
+        with:
+          email: ${{ secrets.OMNISTRATE_USERNAME }}
+          password: ${{ secrets.OMNISTRATE_PASSWORD }}
+
+      - name: Create Instance
+        id: create_instance
+        run: |
+          INSTANCE_ID=$(omnistrate-ctl instance create --environment ${ENVIRONMENT} --cloud-provider ${CLOUD_PROVIDER} --region ${REGION} --plan ${SERVICE_PLAN} --service ${SERVICE_NAME} --resource ${MAIN_RESOURCE_NAME} --output json | jq -r '.instance_id')
+          if EXIT_CODE=$?; [ $EXIT_CODE -ne 0 ]; then
+              echo "Failed to get instance status"
+              exit $EXIT_CODE
+          fi
+          echo "instance_id=$INSTANCE_ID" >> $GITHUB_OUTPUT
+
+      - name: Check Instance Status
+        timeout-minutes: 10
+        run: |
+              echo "Waiting for instance to become RUNNING..."
+              STATUS="DEPLOYING"
+              while [ "$STATUS" != "RUNNING" ]; do
+              STATUS=$(omnistrate-ctl instance describe ${{ steps.create_instance.outputs.instance_id }} -o json | jq -r '.consumptionResourceInstanceResult.status')
+              if EXIT_CODE=$?; [ $EXIT_CODE -ne 0 ]; then
+                echo "Failed to get instance status"
+                exit $EXIT_CODE
+              fi
+              echo "Instance Status: $STATUS"
+              if [ "$STATUS" = "FAILED" ]; then
+                echo "Instance deployment failed"
+                exit 1
+              fi
+              if [ "$STATUS" != "RUNNING" ]; then
+                echo "Waiting 30 seconds before checking again..."
+                sleep 30
+              fi
+              done
+              echo "Instance is now RUNNING"
+
+      - name: Output Instance Details
+        run: |
+          omnistrate-ctl instance describe ${{ steps.create_instance.outputs.instance_id }} -o json
+
+      - name: Delete Instance
+        if: always()
+        run: |
+          omnistrate-ctl instance delete ${{ steps.create_instance.outputs.instance_id }} --yes

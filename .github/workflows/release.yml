@@ -32,16 +32,27 @@ jobs:
       packages: write
     secrets: inherit
 
+  # Third job: Release plan to Omnistrate using existing
   release-to-omnistrate:
     name: Release to Omnistrate
     needs: package-charts
     uses: ./.github/workflows/release-to-omnistrate.yaml
+    permissions:
+      contents: read
+    secrets: inherit
+
+
+  # Fourth job: Validate deployment in Omnistrate using existing
+  validate-deployment:
+    name: Validate Deployment in Omnistrate
+    needs: release-to-omnistrate
+    uses: ./.github/workflows/validate-deployment.yaml
     with:
       create-instance: ${{ github.event.inputs.create-instance || false }}
     permissions:
       contents: read
-      packages: read
     secrets: inherit
+
 
 
   
