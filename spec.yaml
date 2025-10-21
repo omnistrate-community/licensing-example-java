@@ -19,7 +19,7 @@ services:
         primary: true
         networkingType: PUBLIC
     helmChartConfiguration:
-      chartName: licensing-example-java-chart
+      chartName: licensing-example-java-chartsad
       chartVersion: <CHART_VERSION>
       chartRepoName: omnistrate-community
       chartRepoURL: oci://ghcr.io/omnistrate-community
