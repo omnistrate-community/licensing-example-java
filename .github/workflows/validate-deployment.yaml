@@ -35,9 +35,13 @@ jobs:
           SERVICE_NAME: ${{ env.SERVICE_NAME }}
           MAIN_RESOURCE_NAME: ${{ env.MAIN_RESOURCE_NAME }}
         run: |
-          INSTANCE_RESPONSE=$(omnistrate-ctl instance create --environment $ENVIRONMENT --cloud-provider $CLOUD_PROVIDER --region $REGION --plan $SERVICE_PLAN --service $SERVICE_NAME --resource $MAIN_RESOURCE_NAME -o json)
+          INSTANCE_RESPONSE=$(omnistrate-ctl instance create --environment $ENVIRONMENT --cloud-provider $CLOUD_PROVIDER --region $REGION --plan $SERVICE_PLAN --service $SERVICE_NAME --resource $MAIN_RESOURCE_NAME -o json || true)
           echo "$INSTANCE_RESPONSE"
           INSTANCE_ID=$(echo "$INSTANCE_RESPONSE" | jq -r '.instance_id')
+          if [ -z "$INSTANCE_ID" ] || [ "$INSTANCE_ID" = "null" ]; then
+            echo "Failed to create instance"
+            exit 1
+          fi
           echo "Created instance with ID: $INSTANCE_ID"
           echo "instance_id=$INSTANCE_ID" >> $GITHUB_OUTPUT
 
