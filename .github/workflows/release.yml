@@ -46,7 +46,7 @@ jobs:
   validate-deployment:
     name: Validate Deployment in Omnistrate
     needs: release-to-omnistrate
-    if: ${{ github.event.inputs.create-instance == 'true' || github.event_name == 'release' }}
+    if: ${{ github.event.inputs.create-instance || false }}
     uses: ./.github/workflows/validate-deployment.yaml
     permissions:
       contents: read
