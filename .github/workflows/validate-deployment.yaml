@@ -37,6 +37,10 @@ jobs:
         run: |
           INSTANCE_RESPONSE=$(omnistrate-ctl instance create --environment $ENVIRONMENT --cloud-provider $CLOUD_PROVIDER --region $REGION --plan $SERVICE_PLAN --service $SERVICE_NAME --resource $MAIN_RESOURCE_NAME -o json || true)
           echo "$INSTANCE_RESPONSE"
+          if EXIT_CODE=$?; [ $EXIT_CODE -ne 0 ]; then
+            echo "Failed to create instance"
+            exit $EXIT_CODE
+          fi
           INSTANCE_ID=$(echo "$INSTANCE_RESPONSE" | jq -r '.instance_id')
           if [ -z "$INSTANCE_ID" ] || [ "$INSTANCE_ID" = "null" ]; then
             echo "Failed to create instance"
