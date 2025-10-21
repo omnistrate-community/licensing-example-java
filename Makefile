@@ -66,7 +66,7 @@ login:
 release:
 	@echo "Replacing chart version from Chart.yaml"
 	@export CHART_VERSION=$$(grep '^version:' charts/helm/Chart.yaml | awk '{print $$2}'); \
-	export IMAGE_VERSION=$$(gh release list --limit 1 --json tagName --jq '.[0].tagName'); \
+	export IMAGE_VERSION=$$(gh release list --limit 1 --json tagName --jq '.[0].tagName' | sed 's/^v//'); \
 	echo "Chart version: $$CHART_VERSION"; \
 	echo "Image version: $$IMAGE_VERSION"; \
 	sed -i '' "s#<CHART_VERSION>#$$CHART_VERSION#g" spec.yaml; \

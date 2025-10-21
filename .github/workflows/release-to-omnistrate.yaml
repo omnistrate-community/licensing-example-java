@@ -21,7 +21,6 @@ env:
   SERVICE_NAME: licensing-example-java
   MAIN_RESOURCE_NAME: licensing-example-java
   ENVIRONMENT_TYPE: Dev
-  IMAGE_VERSION: ${{ github.ref_name }}
   CLOUD_PROVIDER: aws
   REGION: ap-south-1
   
@@ -42,10 +41,18 @@ jobs:
           echo "Chart version: $CHART_VERSION"
           echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_OUTPUT
 
+      - name: Get Image Version
+        id: get_image_version
+        run: |
+          # Get image version from latest GitHub release tag
+            IMAGE_VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+          echo "Image version: $IMAGE_VERSION"
+          echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_OUTPUT
+
       - name: Replace Version tags in spec.yaml
         run: |
           sed -i 's#<CHART_VERSION>#${{ steps.get_chart_version.outputs.CHART_VERSION }}#g' spec.yaml
-          sed -i 's#<IMAGE_VERSION>#${{ env.IMAGE_VERSION }}#g' spec.yaml
+          sed -i 's#<IMAGE_VERSION>#${{ steps.get_image_version.outputs.IMAGE_VERSION }}#g' spec.yaml
 
       - name: Print update spec.yaml
         run: cat spec.yaml
