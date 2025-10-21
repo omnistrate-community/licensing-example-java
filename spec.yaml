@@ -29,7 +29,7 @@ services:
         image:
           repository: ghcr.io/omnistrate-community/licensing-example-java
           pullPolicy: IfNotPresent
-          tag: <IMAGE_VERSION>
+          tag: v0.1.66
         ingress:
           enabled: true
           className: nginx

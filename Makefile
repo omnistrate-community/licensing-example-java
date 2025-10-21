@@ -69,8 +69,8 @@ release:
 	export IMAGE_VERSION=$$(gh release list --limit 1 --json tagName --jq '.[0].tagName'); \
 	echo "Chart version: $$CHART_VERSION"; \
 	echo "Image version: $$IMAGE_VERSION"; \
-	sed -i '' "s#chartVersion:.*#chartVersion: $$CHART_VERSION#g" spec.yaml; \
-	sed -i '' "s#\$${IMAGE_VERSION}#$$IMAGE_VERSION#g" spec.yaml
+	sed -i '' "s#<CHART_VERSION>#$$CHART_VERSION#g" spec.yaml; \
+	sed -i '' "s#<IMAGE_VERSION>#$$IMAGE_VERSION#g" spec.yaml
 	@echo "Releasing service plan to Omnistrate" 
 	@omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --product-name ${SERVICE_NAME}  --environment ${ENVIRONMENT} --environment-type ${ENVIRONMENT}  --release-as-preferred
 
