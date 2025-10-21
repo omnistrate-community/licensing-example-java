@@ -15,6 +15,7 @@ on:
         type: boolean
         required: false
         default: false
+
 env:
   PROJECT_NAME: licensing-example-java
   SERVICE_NAME: licensing-example-java
@@ -26,7 +27,7 @@ env:
   
 jobs:
   update-plan:
-    name: Update Plan in Omnistrate
+    name: Release Plan to ${{ env.ENVIRONMENT_TYPE }}
     runs-on: ubuntu-latest
    
     steps:
@@ -39,7 +40,7 @@ jobs:
           # Get chart version from Chart.yaml
           CHART_VERSION=$(grep '^version:' charts/helm/Chart.yaml | awk '{print $2}')
           echo "Chart version: $CHART_VERSION"
-          echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_ENV
+          echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_OUTPUT
 
       - name: Replace Version tags in spec.yaml
         run: |
