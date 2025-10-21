@@ -4,8 +4,8 @@ SERVICE_PLAN=licensing-example-java
 DOCKER_PLATFORM?=linux/amd64
 MAIN_RESOURCE_NAME=licensing-example-java
 ENVIRONMENT=Dev
-CLOUD_PROVIDER=aws
-REGION=ap-south-1
+CLOUD_PROVIDER=azure
+REGION=eastus2
 
 # Load variables from .env if it exists
 ifneq (,$(wildcard .env))
