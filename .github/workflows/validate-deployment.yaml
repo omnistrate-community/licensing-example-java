@@ -71,4 +71,8 @@ jobs:
       - name: Delete Instance
         if: always()
         run: |
+          if [ -z "${{ steps.create_instance.outputs.instance_id }}" ]; then
+            echo "No instance to delete"
+            exit 0
+          fi
           omnistrate-ctl instance delete ${{ steps.create_instance.outputs.instance_id }} --yes
