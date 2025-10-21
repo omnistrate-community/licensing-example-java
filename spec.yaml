@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://api.omnistrate.cloud/2022-09-01-00/schema/system-parameters-schema.json
 
 name: licensing-example-java
-asdasd
+
 features:
   CUSTOMER: 
     licensing:
@@ -19,7 +19,7 @@ services:
         primary: true
         networkingType: PUBLIC
     helmChartConfiguration:
-      chartName: licensing-example-java-chartsad
+      chartName: licensing-example-java-chart
       chartVersion: <CHART_VERSION>
       chartRepoName: omnistrate-community
       chartRepoURL: oci://ghcr.io/omnistrate-community
