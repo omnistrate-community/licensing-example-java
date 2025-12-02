@@ -54,5 +54,5 @@ jobs:
 
       - name: Validate Omnistrate plan in environment
         run: |
-          omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --product-name ${SERVICE_NAME} --environment ${ENVIRONMENT_TYPE} --environment-type ${ENVIRONMENT_TYPE} --dry-run
+          omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --product-name ${SERVICE_NAME} --environment ${ENVIRONMENT_TYPE} --environment-type ${ENVIRONMENT_TYPE} --dry-run >> $GITHUB_OUTPUT
 
