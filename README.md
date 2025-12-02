@@ -2,7 +2,7 @@
 
 ![Build](https://github.com/omnistrate-community/licensing-example-java/actions/workflows/build.yml/badge.svg)
 ![Package](https://github.com/omnistrate-community/licensing-example-java/actions/workflows/package.yml/badge.svg)
-![Chart release](https://github.com/omnistrate-community/licensing-example-java/actions/workflows/release-charts.yml/badge.svg)
+![Chart release](https://github.com/omnistrate-community/licensing-example-java/actions/workflows/package-charts.yml/badge.svg)
 
 ## Overview
 
