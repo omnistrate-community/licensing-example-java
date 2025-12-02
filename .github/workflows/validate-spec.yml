@@ -54,11 +54,11 @@ jobs:
 
       - name: Validate Omnistrate plan in environment
         run: |
-          RAW_VALUE="omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --product-name ${SERVICE_NAME} --environment ${ENVIRONMENT_TYPE} --environment-type ${ENVIRONMENT_TYPE} --dry-run"
-          # 1. Use 'echo' to print the RAW_VALUE
-          # 2. Pipe it to 'tr -d' to delete all carriage returns (\r) and newlines (\n)
-          # 3. Capture the result in CLEAN_VALUE
-          CLEAN_VALUE=$(echo "$RAW_VALUE" | tr -d '\n\r')
-          # 4. Use the standard key=value format with the cleaned value
-          echo "build_command=$CLEAN_VALUE" >> $GITHUB_OUTPUT
+          # Capture the command output into a shell variable
+          COMMAND_OUTPUT=$(omnistrate-ctl build -s ServicePlanSpec -f spec.yaml --product-name ${{ env.SERVICE_NAME }} --environment ${{ env.ENVIRONMENT_TYPE }} --dry-run)
+          
+          # Use echo to explicitly print the variable to stdout (the logs)
+          echo "--- Command Execution Output ---"
+          echo "$COMMAND_OUTPUT"
+          echo "------------------------------"
 
