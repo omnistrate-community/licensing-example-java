@@ -71,6 +71,33 @@
     "instanceId": {
       "type": "string",
       "default": "default-instance-id"
+    },
+    "useTerraform": {
+      "type": "boolean",
+      "description": "Enable to require terraform-provisioned endpoint values (dbEndpoint1, dbEndpoint2, redisEndpoint, pubsubId)",
+      "default": false
+    },
+    "endpoints": {
+      "type": "object",
+      "description": "Terraform-provisioned endpoints. Only enforced when useTerraform is true.",
+      "properties": {
+        "dbEndpoint1": {
+          "type": "string",
+          "description": "Database endpoint 1 from terraform output (db_endpoints_1)"
+        },
+        "dbEndpoint2": {
+          "type": "string",
+          "description": "Database endpoint 2 from terraform output (db_endpoints_2.endpoint)"
+        },
+        "redisEndpoint": {
+          "type": "string",
+          "description": "Redis endpoint from terraform output (redis_endpoint)"
+        },
+        "pubsubId": {
+          "type": "string",
+          "description": "Pub/Sub ID from terraform output (pubsub_id)"
+        }
+      }
     }
   },
   "required": ["replicaCount", "image", "ingress", "subscriptionSecret", "instanceId"]

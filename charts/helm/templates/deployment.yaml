@@ -24,6 +24,11 @@ spec:
           env:
             - name: INSTANCE_ID
               value: {{ .Values.instanceId }}
+          {{- if .Values.useTerraform }}
+          envFrom:
+            - configMapRef:
+                name: licensing-example-java-config
+          {{- end }}
           volumeMounts:
             {{- if .Values.subscriptionSecret.enabled }}
             - name: license-volume

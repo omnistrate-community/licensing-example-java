@@ -1,0 +1,16 @@
+{{- if .Values.useTerraform }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: licensing-example-java-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: licensing-example-java
+data:
+  USE_TERRAFORM: "true"
+  dbEndpoint1: {{ required "endpoints.dbEndpoint1 is required when useTerraform is true" .Values.endpoints.dbEndpoint1 | quote }}
+  dbEndpoint2: {{ required "endpoints.dbEndpoint2 is required when useTerraform is true" .Values.endpoints.dbEndpoint2 | quote }}
+  redisEndpoint: {{ required "endpoints.redisEndpoint is required when useTerraform is true" .Values.endpoints.redisEndpoint | quote }}
+  pubsubId: {{ required "endpoints.pubsubId is required when useTerraform is true" .Values.endpoints.pubsubId | quote }}
+{{- end }}
+

@@ -10,14 +10,64 @@ import java.net.InetSocketAddress;
 
 public class HttpServerApp {
 
+    private static String dbEndpoint1;
+    private static String dbEndpoint2;
+    private static String redisEndpoint;
+    private static String pubsubId;
 
     public static void main(String[] args) throws IOException {
+        // Check if terraform-provisioned endpoints are expected
+        boolean useTerraform = "true".equalsIgnoreCase(System.getenv("USE_TERRAFORM"));
+
+        if (useTerraform) {
+            // Validate required endpoint environment variables from ConfigMap
+            dbEndpoint1 = getRequiredEnv("dbEndpoint1");
+            dbEndpoint2 = getRequiredEnv("dbEndpoint2");
+            redisEndpoint = getRequiredEnv("redisEndpoint");
+            pubsubId = getRequiredEnv("pubsubId");
+
+            System.out.println("Terraform endpoints configured:");
+            System.out.println("  dbEndpoint1:    " + dbEndpoint1);
+            System.out.println("  dbEndpoint2:    " + dbEndpoint2);
+            System.out.println("  redisEndpoint:  " + redisEndpoint);
+            System.out.println("  pubsubId:       " + pubsubId);
+        } else {
+            System.out.println("useTerraform is disabled, skipping terraform endpoint validation");
+        }
+
         System.out.println("Starting HTTP server on port 8080");
         // Create a simple HTTP server
         HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
         server.createContext("/", new RootHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
+    }
+
+    private static String getRequiredEnv(String name) {
+        String value = System.getenv(name);
+        if (value == null || value.trim().isEmpty()) {
+            throw new IllegalStateException(
+                "Required environment variable '" + name + "' is not set or is empty. " +
+                "Ensure the ConfigMap 'licensing-example-java-config' is properly configured."
+            );
+        }
+        return value;
+    }
+
+    public static String getDbEndpoint1() {
+        return dbEndpoint1;
+    }
+
+    public static String getDbEndpoint2() {
+        return dbEndpoint2;
+    }
+
+    public static String getRedisEndpoint() {
+        return redisEndpoint;
+    }
+
+    public static String getPubsubId() {
+        return pubsubId;
     }
 
     static class RootHandler implements HttpHandler {

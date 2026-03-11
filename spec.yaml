@@ -38,6 +38,12 @@ services:
           tlsSecret: google-public-ca-tls
         subscriptionSecret:
           enabled: true
+        useTerraform: true
+        endpoints:
+          dbEndpoint1: $terraformChild.out.db_endpoints_1
+          dbEndpoint2: $terraformChild.out.db_endpoints_2.endpoint
+          redisEndpoint: $terraformChild2.out.redis_endpoint
+          pubsubId: $terraformChild2.out.pubsub_id
         affinity:
           nodeAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
