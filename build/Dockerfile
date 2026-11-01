@@ -1,5 +1,5 @@
 # Build stage
-FROM maven:3-eclipse-temurin-26-alpine AS build
+FROM maven:3-eclipse-temurin-27-alpine AS build
 
 # Set the working directory
 WORKDIR /app
